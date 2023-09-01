@@ -23,6 +23,10 @@ class _MyAppState extends State<MyApp> {
 
   String? title;
 
+  void press() {
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -136,7 +140,7 @@ class _MyAppState extends State<MyApp> {
                     filtersList[index]['text'],
                     filtersList[index]['iconpath'],
                   ),
-                  itemCount: 5,
+                  itemCount: filtersList.length,
                 ),
               ),
               Gap(height * 0.02),

@@ -94,8 +94,8 @@ class Coaching extends StatelessWidget {
               SizedBox(
                 width: 135,
                 child: Text(
-                  'Metro Coaching Center',
-                  style: TextStyle(
+                  coaching['title'],
+                  style: const TextStyle(
                     color: Color(0xFF272727),
                     fontSize: 16,
                     fontFamily: 'Avenir Next LT Pro',
@@ -133,7 +133,7 @@ class Coaching extends StatelessWidget {
                   ),
                   Gap(height * 0.005),
                   Text(
-                    '${coaching['distance']} kms away',
+                    '${coaching['distance'].toString()} kms away',
                     style: const TextStyle(
                       color: Color(0xFF414141),
                       fontSize: 12,

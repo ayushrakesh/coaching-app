@@ -2,19 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
-class FilterItem extends StatelessWidget {
-  final height = Get.height;
-  final width = Get.width;
-
+class FilterItem extends StatefulWidget {
   final String text;
   final String iconpath;
 
   FilterItem(this.text, this.iconpath);
 
   @override
+  State<FilterItem> createState() => _FilterItemState();
+}
+
+class _FilterItemState extends State<FilterItem> {
+  final height = Get.height;
+
+  final width = Get.width;
+  bool isSelected = false;
+
+  void press() {
+    setState(() {
+      isSelected = !isSelected;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: press,
       child: Container(
         // margin: EdgeInsets.only(
         //   right: height * 0.01,
@@ -25,7 +38,9 @@ class FilterItem extends StatelessWidget {
         ),
         width: width * 0.2,
         // height: 29,
+
         decoration: ShapeDecoration(
+          color: isSelected ? const Color(0xFF7D23E0) : Colors.white,
           shape: RoundedRectangleBorder(
             side: const BorderSide(
               width: 0.50,
@@ -36,15 +51,15 @@ class FilterItem extends StatelessWidget {
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: iconpath != ''
+          mainAxisAlignment: widget.iconpath != ''
               ? MainAxisAlignment.spaceBetween
               : MainAxisAlignment.center,
           children: [
             FittedBox(
               child: Text(
-                text,
-                style: const TextStyle(
-                  color: Color(0xFF7D23E0),
+                widget.text,
+                style: TextStyle(
+                  color: isSelected ? Colors.white : const Color(0xFF7D23E0),
                   fontSize: 14,
                   fontFamily: 'Avenir Next LT Pro',
                   fontWeight: FontWeight.w400,
@@ -53,11 +68,11 @@ class FilterItem extends StatelessWidget {
                 ),
               ),
             ),
-            if (iconpath != "")
+            if (widget.iconpath != "")
               SvgPicture.asset(
-                iconpath,
+                widget.iconpath,
                 height: height * 0.02,
-                color: const Color(0xFF7D23E0),
+                color: isSelected ? Colors.white : const Color(0xFF7D23E0),
               ),
           ],
         ),
