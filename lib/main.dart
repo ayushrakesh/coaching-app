@@ -1,6 +1,8 @@
 import 'package:coaching/data/coaching.dart';
 import 'package:coaching/widgets/coaching.dart';
 import 'package:coaching/widgets/filter_item.dart';
+import 'package:coaching/widgets/sort-card-item.dart';
+import 'package:coaching/widgets/sort-card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -28,6 +30,11 @@ class _MyAppState extends State<MyApp> {
   bool isChemistry = false;
   bool isMaths = false;
 
+  bool rel = false;
+  bool dis = false;
+  bool pri = false;
+  bool rating = false;
+
   List searchedcoachings = [];
 
   List lessthan2coachings = [];
@@ -36,8 +43,15 @@ class _MyAppState extends State<MyApp> {
   List mathscoachings = [];
   List physicscoachings = [];
 
+  List relcoachings = [];
+  List pricecoachings = [];
+  List discoachings = [];
+  List ratingcoachings = [];
+
   List finallist = [];
   List temp = [];
+
+  List l = [];
 
   void filter2km() {
     if (is2km) {
@@ -234,6 +248,58 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
+  void sort() {
+    if (rel) {
+      setState(() {
+        relcoachings = searchedcoachings;
+        relcoachings.sort(
+          (a, b) => a['rating'].compareTo(b['rating']),
+        );
+      });
+      temp = relcoachings.reversed.toList();
+      finallist = temp;
+    }
+    if (dis) {
+      setState(() {
+        discoachings = searchedcoachings;
+        discoachings.sort(
+          (a, b) => a['distance'].compareTo(b['distance']),
+        );
+      });
+      temp = discoachings;
+      finallist = temp;
+    }
+    if (rating) {
+      setState(() {
+        ratingcoachings = searchedcoachings;
+
+        ratingcoachings.sort(
+          (a, b) => a['rating'].compareTo(b['rating']),
+        );
+      });
+      temp = ratingcoachings.reversed.toList();
+      finallist = temp;
+    }
+    if (pri) {
+      setState(() {
+        pricecoachings = searchedcoachings;
+
+        pricecoachings.sort(
+          (a, b) => a['discount'].compareTo(b['discount']),
+        );
+      });
+      temp = pricecoachings.reversed.toList();
+      finallist = temp;
+    }
+
+    if (!pri && !dis && !rating && !rel) {
+      setState(() {
+        temp = searchedcoachings;
+        finallist = temp;
+      });
+    }
+  }
+
   @override
   void initState() {
     searchedcoachings = coachings;
@@ -368,26 +434,6 @@ class _MyAppState extends State<MyApp> {
                         is2km = false;
                       });
                     }, issort),
-                    // Container(
-                    //   width: 152,
-                    //   height: 200,
-                    //   decoration: ShapeDecoration(
-                    //     color: Colors.white,
-                    //     shape: RoundedRectangleBorder(
-                    //       side: BorderSide(
-                    //           width: 0.50, color: Color(0xFF7D23E0)),
-                    //       borderRadius: BorderRadius.circular(18),
-                    //     ),
-                    //     shadows: [
-                    //       BoxShadow(
-                    //         color: Color(0x33000000),
-                    //         blurRadius: 2,
-                    //         offset: Offset(0, 0),
-                    //         spreadRadius: 0,
-                    //       )
-                    //     ],
-                    //   ),
-                    // ),
                     Gap(height * 0.01),
                     FilterItem('<2km', '', () {
                       setState(() {
@@ -455,12 +501,100 @@ class _MyAppState extends State<MyApp> {
               ),
               Gap(height * 0.02),
               Expanded(
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  itemBuilder: (ctx, index) {
-                    return Coaching(finallist[index]);
-                  },
-                  itemCount: finallist.length,
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    Expanded(
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        itemBuilder: (ctx, index) {
+                          return Coaching(finallist[index]);
+                        },
+                        itemCount: finallist.length,
+                      ),
+                    ),
+                    if (issort)
+                      Positioned(
+                        left: width * 0.02,
+                        top: -height * 0.01,
+                        child: Container(
+                          width: 152,
+                          // height: 138,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: width * 0.05,
+                            vertical: height * 0.02,
+                          ),
+                          decoration: ShapeDecoration(
+                            color: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              side: const BorderSide(
+                                  width: 0.50, color: Color(0xFF7D23E0)),
+                              borderRadius: BorderRadius.circular(18),
+                            ),
+                            shadows: const [
+                              BoxShadow(
+                                color: Color(0x33000000),
+                                blurRadius: 2,
+                                offset: Offset(0, 0),
+                                spreadRadius: 0,
+                              )
+                            ],
+                          ),
+                          child: Column(
+                            children: [
+                              SortCardItem(
+                                  press: () {
+                                    setState(() {
+                                      rel = !rel;
+                                      pri = false;
+                                      rating = false;
+                                      dis = false;
+                                    });
+                                    sort();
+                                  },
+                                  rel: rel,
+                                  text: 'Relevance'),
+                              SortCardItem(
+                                  press: () {
+                                    setState(() {
+                                      rel = false;
+                                      pri = !pri;
+                                      rating = false;
+                                      dis = false;
+                                    });
+                                    sort();
+                                  },
+                                  price: pri,
+                                  text: 'Price'),
+                              SortCardItem(
+                                  press: () {
+                                    setState(() {
+                                      rel = false;
+                                      pri = false;
+                                      rating = false;
+                                      dis = !dis;
+                                    });
+                                    sort();
+                                  },
+                                  dis: dis,
+                                  text: 'Distance'),
+                              SortCardItem(
+                                  press: () {
+                                    setState(() {
+                                      rating = !rating;
+                                      pri = false;
+                                      rel = false;
+                                      dis = false;
+                                    });
+                                    sort();
+                                  },
+                                  rating: rating,
+                                  text: 'Rating'),
+                            ],
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
               ),
             ],
