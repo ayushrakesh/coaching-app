@@ -10,8 +10,8 @@ final List coachings = [
     'discount': 20,
     'subjects': [
       'PHYSICS',
-      'MATHS',
-      'CHEMISTRY',
+      '',
+      '',
       'JEE',
     ],
     'students': 2,
@@ -28,7 +28,7 @@ final List coachings = [
       'PHYSICS',
       'MATHS',
       'CHEMISTRY',
-      'JEE',
+      '',
     ],
     'students': 0,
     'location': 'Kalkaji , New Delhi'
@@ -41,7 +41,7 @@ final List coachings = [
     'image': const AssetImage('assets/images/coaching.jpeg'),
     'discount': 25,
     'subjects': [
-      'PHYSICS',
+      '',
       'MATHS',
       'CHEMISTRY',
       'JEE',
@@ -60,7 +60,7 @@ final List coachings = [
       'PHYSICS',
       'MATHS',
       'CHEMISTRY',
-      'JEE',
+      '',
     ],
     'students': 2,
     'location': 'Kalkaji , New Delhi'
@@ -85,31 +85,38 @@ final List coachings = [
 
 final List filtersList = [
   {
-    'text': 'Filters',
+    'text': 'Apply Filters',
+    'isSelected': false,
     'iconpath': 'assets/icons/filter.svg',
   },
   {
     'text': 'Sort',
+    'isSelected': false,
     'iconpath': 'assets/icons/arrow-down.svg',
   },
   {
     'text': '<2km',
+    'isSelected': false,
     'iconpath': '',
   },
   {
     'text': 'JEE',
+    'isSelected': false,
     'iconpath': '',
   },
   {
     'text': 'Chemistry',
+    'isSelected': false,
     'iconpath': '',
   },
   {
     'text': 'Maths',
+    'isSelected': false,
     'iconpath': '',
   },
   {
     'text': 'Physics',
+    'isSelected': false,
     'iconpath': '',
   },
 ];

@@ -21,10 +21,288 @@ class _MyAppState extends State<MyApp> {
 
   final titleController = TextEditingController();
 
-  String? title;
+  String title = "";
 
-  void press() {
-    setState(() {});
+  bool isapplyFilters = false;
+
+  bool issort = false;
+  bool is2km = false;
+  bool isJEE = false;
+  bool isPhysics = false;
+  bool isChemistry = false;
+  bool isMaths = false;
+
+  bool isSelected = false;
+
+  List searchedcoachings = [];
+
+  List lessthan2coachings = [];
+  List jeecoachings = [];
+  List chemistrycoachings = [];
+  List mathscoachings = [];
+  List physicscoachings = [];
+
+  // List applyFilters = [];
+  List finallist = [];
+  List temp = [];
+
+  void filter2km() {
+    if (is2km) {
+      setState(() {
+        lessthan2coachings =
+            coachings.where((element) => element['distance'] < 2).toList();
+      });
+    } else {
+      setState(() {
+        lessthan2coachings = [];
+      });
+    }
+    setState(() {
+      temp = [
+        ...lessthan2coachings,
+        ...chemistrycoachings,
+        ...mathscoachings,
+        ...jeecoachings,
+        ...physicscoachings
+      ];
+    });
+
+    print('<2km   ${lessthan2coachings.length}');
+    print(lessthan2coachings);
+  }
+
+  void filterJEE() {
+    if (isJEE) {
+      setState(() {
+        jeecoachings = coachings
+            .where((element) => (element['subjects'] as List).contains('JEE'))
+            .toList();
+      });
+    } else {
+      setState(() {
+        jeecoachings = [];
+      });
+    }
+    setState(() {
+      temp = [
+        ...lessthan2coachings,
+        ...chemistrycoachings,
+        ...mathscoachings,
+        ...jeecoachings,
+        ...physicscoachings
+      ];
+    });
+
+    print('JEE ${jeecoachings.length}');
+    print(jeecoachings);
+  }
+
+  void filterChem() {
+    if (isChemistry) {
+      setState(() {
+        chemistrycoachings = coachings
+            .where((element) =>
+                (element['subjects'] as List).contains('CHEMISTRY'))
+            .toList();
+      });
+    } else {
+      setState(() {
+        chemistrycoachings = [];
+      });
+    }
+    setState(() {
+      temp = [
+        ...lessthan2coachings,
+        ...chemistrycoachings,
+        ...mathscoachings,
+        ...jeecoachings,
+        ...physicscoachings
+      ];
+    });
+
+    print('Chem ${chemistrycoachings.length}');
+    print(chemistrycoachings);
+  }
+
+  void filterMaths() {
+    if (isMaths) {
+      setState(() {
+        mathscoachings = coachings
+            .where((element) => (element['subjects'] as List).contains('MATHS'))
+            .toList();
+      });
+    } else {
+      setState(() {
+        mathscoachings = [];
+      });
+    }
+
+    setState(() {
+      temp = [
+        ...lessthan2coachings,
+        ...chemistrycoachings,
+        ...mathscoachings,
+        ...jeecoachings,
+        ...physicscoachings
+      ];
+    });
+
+    print('Maths ${mathscoachings.length}');
+    print(mathscoachings);
+  }
+
+  void filterPhy() {
+    if (isPhysics) {
+      setState(() {
+        physicscoachings = coachings
+            .where(
+                (element) => (element['subjects'] as List).contains('PHYSICS'))
+            .toList();
+      });
+    } else {
+      setState(() {
+        physicscoachings = [];
+      });
+    }
+
+    setState(() {
+      temp = [
+        ...lessthan2coachings,
+        ...chemistrycoachings,
+        ...mathscoachings,
+        ...jeecoachings,
+        ...physicscoachings
+      ];
+    });
+
+    print('Physics ${physicscoachings.length}');
+    print(physicscoachings);
+  }
+
+  void filter() {
+    if (is2km) {
+      setState(() {
+        lessthan2coachings =
+            coachings.where((element) => element['distance'] < 2).toList();
+      });
+
+      temp = lessthan2coachings;
+      finallist = temp;
+    }
+
+    if (isPhysics) {
+      setState(() {
+        physicscoachings = coachings
+            .where(
+                (element) => (element['subjects'] as List).contains('PHYSICS'))
+            .toList();
+      });
+
+      temp = physicscoachings;
+      finallist = temp;
+    }
+    if (isChemistry) {
+      setState(() {
+        chemistrycoachings = coachings
+            .where((element) =>
+                (element['subjects'] as List).contains('CHEMISTRY'))
+            .toList();
+      });
+
+      temp = chemistrycoachings;
+      finallist = temp;
+    }
+    if (isMaths) {
+      setState(() {
+        mathscoachings = coachings
+            .where((element) => (element['subjects'] as List).contains('MATHS'))
+            .toList();
+      });
+
+      temp = mathscoachings;
+      finallist = temp;
+    }
+    if (isJEE) {
+      setState(() {
+        jeecoachings = coachings
+            .where((element) => (element['subjects'] as List).contains('JEE'))
+            .toList();
+      });
+
+      temp = jeecoachings;
+      finallist = temp;
+    }
+  }
+  // void applyFilters() {
+  //   filter2km();
+  //   filterJEE();
+  //   filterChem();
+  //   filterPhy();
+  //   filterMaths();
+
+  //   if (isapplyFilters) {
+  //     setState(() {
+  //       if (!lessthan2coachings.isEmpty) {
+  //         temp = lessthan2coachings
+  //             .toSet()
+  //             .where((x) => temp.toSet().contains(x))
+  //             .toList();
+
+  //         // print('temp from <2km ${temp.length}');
+  //         // print(temp);
+  //       }
+  //       if (!jeecoachings.isEmpty) {
+  //         temp = jeecoachings
+  //             .toSet()
+  //             .where((x) => temp.toSet().contains(x))
+  //             .toList();
+
+  //         // print('temp from jeecoachings ${temp.length}');
+  //         // print(temp);
+  //       }
+
+  //       if (!chemistrycoachings.isEmpty) {
+  //         temp = chemistrycoachings
+  //             .toSet()
+  //             .where((x) => temp.toSet().contains(x))
+  //             .toList();
+
+  //         // print('temp from chemistry ${temp.length}');
+  //         // print(temp);
+  //       }
+  //       if (!mathscoachings.isEmpty) {
+  //         temp = mathscoachings
+  //             .toSet()
+  //             .where((x) => temp.toSet().contains(x))
+  //             .toList();
+
+  //         // print('temp from mathscoachings ${temp.length}');
+  //         // print(temp);
+  //       }
+  //       if (!physicscoachings.isEmpty) {
+  //         temp = mathscoachings
+  //             .toSet()
+  //             .where((x) => temp.toSet().contains(x))
+  //             .toList();
+
+  //         // print('temp from physicscoachings ${temp.length}');
+  //         // print(temp);
+  //       }
+
+  //       finallist = temp;
+  //     });
+  //   } else {
+  //     setState(() {
+  //       // temp = [];
+  //       finallist = temp;
+  //     });
+  //   }
+  // }
+
+  @override
+  void initState() {
+    finallist = coachings;
+    super.initState();
   }
 
   @override
@@ -88,7 +366,13 @@ class _MyAppState extends State<MyApp> {
                 controller: titleController,
                 onChanged: (vlaue) {
                   setState(() {
-                    title = vlaue;
+                    searchedcoachings = coachings
+                        .where((element) => element['title']
+                            .toLowerCase()
+                            .contains(vlaue.toLowerCase().trim()))
+                        .toList();
+                    temp = searchedcoachings;
+                    finallist = temp;
                   });
                 },
                 decoration: InputDecoration(
@@ -132,23 +416,69 @@ class _MyAppState extends State<MyApp> {
               Gap(height * 0.02),
               SizedBox(
                 height: height * 0.04,
-                child: ListView.separated(
-                  separatorBuilder: (context, index) => Gap(height * 0.01),
+                child: ListView(
+                  // separatorBuilder: (context, index) => Gap(height * 0.01),
                   shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
-                  itemBuilder: (ctx, index) => FilterItem(
-                    filtersList[index]['text'],
-                    filtersList[index]['iconpath'],
-                  ),
-                  itemCount: filtersList.length,
+                  children: [
+                    Gap(height * 0.01),
+                    // FilterItem('Sort', 'assets/icons/arrow-down.svg', () {
+                    //   setState(() {
+                    //     issort = !issort;
+                    //   });
+                    //   ();
+                    // }, issort),
+                    // Gap(height * 0.01),
+                    FilterItem('<2km', '', () {
+                      setState(() {
+                        is2km = !is2km;
+                      });
+                      filter();
+                    }, is2km),
+                    Gap(height * 0.01),
+                    FilterItem('JEE', '', () {
+                      setState(() {
+                        isJEE = !isJEE;
+                      });
+                      filter();
+                    }, isJEE),
+                    Gap(height * 0.01),
+                    FilterItem('Chemistry', '', () {
+                      setState(() {
+                        isChemistry = !isChemistry;
+                      });
+                      filter();
+                    }, isChemistry),
+                    Gap(height * 0.01),
+                    FilterItem('Maths', '', () {
+                      setState(() {
+                        isMaths = !isMaths;
+                      });
+                      filter();
+                    }, isMaths),
+                    Gap(height * 0.010),
+                    FilterItem('Physics', '', () {
+                      setState(() {
+                        isPhysics = !isPhysics;
+                      });
+                      filter();
+                    }, isPhysics),
+                  ],
+
+                  // itemCount: filtersList.length,
                 ),
               ),
               Gap(height * 0.02),
               Expanded(
                 child: ListView.builder(
                   shrinkWrap: true,
-                  itemBuilder: (ctx, index) => Coaching(coachings[index]),
-                  itemCount: coachings.length,
+                  itemBuilder: (ctx, index) {
+                    print('gggg');
+                    print(finallist.length);
+                    print(finallist);
+                    return Coaching(finallist[index]);
+                  },
+                  itemCount: finallist.length,
                 ),
               ),
             ],

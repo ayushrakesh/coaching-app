@@ -149,18 +149,22 @@ class Coaching extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Subject(coaching['subjects'][0]),
+                  if (coaching['subjects'][0] != '')
+                    Subject(coaching['subjects'][0]),
                   Gap(height * 0.01),
-                  Subject(coaching['subjects'][1]),
+                  if (coaching['subjects'][1] != '')
+                    Subject(coaching['subjects'][1]),
                 ],
               ),
               Gap(height * 0.01),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Subject(coaching['subjects'][2]),
+                  if (coaching['subjects'][2] != '')
+                    Subject(coaching['subjects'][2]),
                   Gap(height * 0.01),
-                  Subject(coaching['subjects'][3]),
+                  if (coaching['subjects'][3] != '')
+                    Subject(coaching['subjects'][3]),
                 ],
               ),
               Gap(height * 0.02),

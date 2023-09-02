@@ -1,3 +1,4 @@
+import 'package:coaching/data/coaching.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -5,8 +6,10 @@ import 'package:get/get.dart';
 class FilterItem extends StatefulWidget {
   final String text;
   final String iconpath;
+  bool isSelected;
+  final VoidCallback press;
 
-  FilterItem(this.text, this.iconpath);
+  FilterItem(this.text, this.iconpath, this.press, this.isSelected);
 
   @override
   State<FilterItem> createState() => _FilterItemState();
@@ -14,20 +17,18 @@ class FilterItem extends StatefulWidget {
 
 class _FilterItemState extends State<FilterItem> {
   final height = Get.height;
-
   final width = Get.width;
-  bool isSelected = false;
 
-  void press() {
-    setState(() {
-      isSelected = !isSelected;
-    });
-  }
+  // List lessthan2coachings = [];
+  // List jeecoachings = [];
+  // List chemistrycoachings = [];
+  // List mathscoachings = [];
+  // List physicscoachings = [];
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: press,
+      onTap: widget.press,
       child: Container(
         // margin: EdgeInsets.only(
         //   right: height * 0.01,
@@ -40,7 +41,7 @@ class _FilterItemState extends State<FilterItem> {
         // height: 29,
 
         decoration: ShapeDecoration(
-          color: isSelected ? const Color(0xFF7D23E0) : Colors.white,
+          color: widget.isSelected ? const Color(0xFF7D23E0) : Colors.white,
           shape: RoundedRectangleBorder(
             side: const BorderSide(
               width: 0.50,
@@ -59,7 +60,9 @@ class _FilterItemState extends State<FilterItem> {
               child: Text(
                 widget.text,
                 style: TextStyle(
-                  color: isSelected ? Colors.white : const Color(0xFF7D23E0),
+                  color: widget.isSelected
+                      ? Colors.white
+                      : const Color(0xFF7D23E0),
                   fontSize: 14,
                   fontFamily: 'Avenir Next LT Pro',
                   fontWeight: FontWeight.w400,
@@ -72,7 +75,8 @@ class _FilterItemState extends State<FilterItem> {
               SvgPicture.asset(
                 widget.iconpath,
                 height: height * 0.02,
-                color: isSelected ? Colors.white : const Color(0xFF7D23E0),
+                color:
+                    widget.isSelected ? Colors.white : const Color(0xFF7D23E0),
               ),
           ],
         ),
