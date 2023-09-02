@@ -21,18 +21,12 @@ class _MyAppState extends State<MyApp> {
 
   final titleController = TextEditingController();
 
-  String title = "";
-
-  bool isapplyFilters = false;
-
   bool issort = false;
   bool is2km = false;
   bool isJEE = false;
   bool isPhysics = false;
   bool isChemistry = false;
   bool isMaths = false;
-
-  bool isSelected = false;
 
   List searchedcoachings = [];
 
@@ -42,7 +36,6 @@ class _MyAppState extends State<MyApp> {
   List mathscoachings = [];
   List physicscoachings = [];
 
-  // List applyFilters = [];
   List finallist = [];
   List temp = [];
 
@@ -182,8 +175,9 @@ class _MyAppState extends State<MyApp> {
   void filter() {
     if (is2km) {
       setState(() {
-        lessthan2coachings =
-            coachings.where((element) => element['distance'] < 2).toList();
+        lessthan2coachings = searchedcoachings
+            .where((element) => element['distance'] < 2)
+            .toList();
       });
 
       temp = lessthan2coachings;
@@ -192,7 +186,7 @@ class _MyAppState extends State<MyApp> {
 
     if (isPhysics) {
       setState(() {
-        physicscoachings = coachings
+        physicscoachings = searchedcoachings
             .where(
                 (element) => (element['subjects'] as List).contains('PHYSICS'))
             .toList();
@@ -203,7 +197,7 @@ class _MyAppState extends State<MyApp> {
     }
     if (isChemistry) {
       setState(() {
-        chemistrycoachings = coachings
+        chemistrycoachings = searchedcoachings
             .where((element) =>
                 (element['subjects'] as List).contains('CHEMISTRY'))
             .toList();
@@ -214,7 +208,7 @@ class _MyAppState extends State<MyApp> {
     }
     if (isMaths) {
       setState(() {
-        mathscoachings = coachings
+        mathscoachings = searchedcoachings
             .where((element) => (element['subjects'] as List).contains('MATHS'))
             .toList();
       });
@@ -224,7 +218,7 @@ class _MyAppState extends State<MyApp> {
     }
     if (isJEE) {
       setState(() {
-        jeecoachings = coachings
+        jeecoachings = searchedcoachings
             .where((element) => (element['subjects'] as List).contains('JEE'))
             .toList();
       });
@@ -232,75 +226,17 @@ class _MyAppState extends State<MyApp> {
       temp = jeecoachings;
       finallist = temp;
     }
+    if (!is2km && !isJEE && !isChemistry && !isMaths && !isPhysics) {
+      setState(() {
+        temp = searchedcoachings;
+        finallist = temp;
+      });
+    }
   }
-  // void applyFilters() {
-  //   filter2km();
-  //   filterJEE();
-  //   filterChem();
-  //   filterPhy();
-  //   filterMaths();
-
-  //   if (isapplyFilters) {
-  //     setState(() {
-  //       if (!lessthan2coachings.isEmpty) {
-  //         temp = lessthan2coachings
-  //             .toSet()
-  //             .where((x) => temp.toSet().contains(x))
-  //             .toList();
-
-  //         // print('temp from <2km ${temp.length}');
-  //         // print(temp);
-  //       }
-  //       if (!jeecoachings.isEmpty) {
-  //         temp = jeecoachings
-  //             .toSet()
-  //             .where((x) => temp.toSet().contains(x))
-  //             .toList();
-
-  //         // print('temp from jeecoachings ${temp.length}');
-  //         // print(temp);
-  //       }
-
-  //       if (!chemistrycoachings.isEmpty) {
-  //         temp = chemistrycoachings
-  //             .toSet()
-  //             .where((x) => temp.toSet().contains(x))
-  //             .toList();
-
-  //         // print('temp from chemistry ${temp.length}');
-  //         // print(temp);
-  //       }
-  //       if (!mathscoachings.isEmpty) {
-  //         temp = mathscoachings
-  //             .toSet()
-  //             .where((x) => temp.toSet().contains(x))
-  //             .toList();
-
-  //         // print('temp from mathscoachings ${temp.length}');
-  //         // print(temp);
-  //       }
-  //       if (!physicscoachings.isEmpty) {
-  //         temp = mathscoachings
-  //             .toSet()
-  //             .where((x) => temp.toSet().contains(x))
-  //             .toList();
-
-  //         // print('temp from physicscoachings ${temp.length}');
-  //         // print(temp);
-  //       }
-
-  //       finallist = temp;
-  //     });
-  //   } else {
-  //     setState(() {
-  //       // temp = [];
-  //       finallist = temp;
-  //     });
-  //   }
-  // }
 
   @override
   void initState() {
+    searchedcoachings = coachings;
     finallist = coachings;
     super.initState();
   }
@@ -364,12 +300,12 @@ class _MyAppState extends State<MyApp> {
               Gap(height * 0.02),
               TextField(
                 controller: titleController,
-                onChanged: (vlaue) {
+                onChanged: (value) {
                   setState(() {
                     searchedcoachings = coachings
                         .where((element) => element['title']
                             .toLowerCase()
-                            .contains(vlaue.toLowerCase().trim()))
+                            .contains(value.toLowerCase().trim()))
                         .toList();
                     temp = searchedcoachings;
                     finallist = temp;
@@ -421,17 +357,46 @@ class _MyAppState extends State<MyApp> {
                   shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
                   children: [
-                    Gap(height * 0.01),
-                    // FilterItem('Sort', 'assets/icons/arrow-down.svg', () {
-                    //   setState(() {
-                    //     issort = !issort;
-                    //   });
-                    //   ();
-                    // }, issort),
                     // Gap(height * 0.01),
+                    FilterItem('Sort', 'assets/icons/arrow-down.svg', () {
+                      setState(() {
+                        issort = !issort;
+                        isJEE = false;
+                        isChemistry = false;
+                        isPhysics = false;
+                        isMaths = false;
+                        is2km = false;
+                      });
+                    }, issort),
+                    // Container(
+                    //   width: 152,
+                    //   height: 200,
+                    //   decoration: ShapeDecoration(
+                    //     color: Colors.white,
+                    //     shape: RoundedRectangleBorder(
+                    //       side: BorderSide(
+                    //           width: 0.50, color: Color(0xFF7D23E0)),
+                    //       borderRadius: BorderRadius.circular(18),
+                    //     ),
+                    //     shadows: [
+                    //       BoxShadow(
+                    //         color: Color(0x33000000),
+                    //         blurRadius: 2,
+                    //         offset: Offset(0, 0),
+                    //         spreadRadius: 0,
+                    //       )
+                    //     ],
+                    //   ),
+                    // ),
+                    Gap(height * 0.01),
                     FilterItem('<2km', '', () {
                       setState(() {
                         is2km = !is2km;
+                        isJEE = false;
+                        isChemistry = false;
+                        isPhysics = false;
+                        isMaths = false;
+                        issort = false;
                       });
                       filter();
                     }, is2km),
@@ -439,6 +404,11 @@ class _MyAppState extends State<MyApp> {
                     FilterItem('JEE', '', () {
                       setState(() {
                         isJEE = !isJEE;
+                        is2km = false;
+                        isChemistry = false;
+                        isPhysics = false;
+                        isMaths = false;
+                        issort = false;
                       });
                       filter();
                     }, isJEE),
@@ -446,6 +416,11 @@ class _MyAppState extends State<MyApp> {
                     FilterItem('Chemistry', '', () {
                       setState(() {
                         isChemistry = !isChemistry;
+                        is2km = false;
+                        isJEE = false;
+                        isPhysics = false;
+                        isMaths = false;
+                        issort = false;
                       });
                       filter();
                     }, isChemistry),
@@ -453,6 +428,11 @@ class _MyAppState extends State<MyApp> {
                     FilterItem('Maths', '', () {
                       setState(() {
                         isMaths = !isMaths;
+                        is2km = false;
+                        isJEE = false;
+                        isPhysics = false;
+                        isChemistry = false;
+                        issort = false;
                       });
                       filter();
                     }, isMaths),
@@ -460,6 +440,11 @@ class _MyAppState extends State<MyApp> {
                     FilterItem('Physics', '', () {
                       setState(() {
                         isPhysics = !isPhysics;
+                        is2km = false;
+                        isJEE = false;
+                        isChemistry = false;
+                        isMaths = false;
+                        issort = false;
                       });
                       filter();
                     }, isPhysics),
@@ -473,9 +458,6 @@ class _MyAppState extends State<MyApp> {
                 child: ListView.builder(
                   shrinkWrap: true,
                   itemBuilder: (ctx, index) {
-                    print('gggg');
-                    print(finallist.length);
-                    print(finallist);
                     return Coaching(finallist[index]);
                   },
                   itemCount: finallist.length,
