@@ -2,7 +2,6 @@ import 'package:coaching/data/coaching.dart';
 import 'package:coaching/widgets/coaching.dart';
 import 'package:coaching/widgets/filter_item.dart';
 import 'package:coaching/widgets/sort-card-item.dart';
-import 'package:coaching/widgets/sort-card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -34,6 +33,9 @@ class _MyAppState extends State<MyApp> {
   bool dis = false;
   bool pri = false;
   bool rating = false;
+
+  bool oneSortSelected = false;
+  bool notAnySortSelected = true;
 
   List searchedcoachings = [];
 
@@ -358,8 +360,6 @@ class _MyAppState extends State<MyApp> {
           padding: EdgeInsets.only(
             left: width * 0.04,
             right: width * 0.04,
-            // top: height * 0.02,
-            // horizontal: width * 0.04,
           ),
           child: Column(
             children: [
@@ -378,7 +378,7 @@ class _MyAppState extends State<MyApp> {
                   });
                 },
                 decoration: InputDecoration(
-                  hintText: "Search for UPSC Coaching ",
+                  hintText: "Search for JEE Mains Coaching ",
                   hintStyle: const TextStyle(
                     color: Color(0xFF787878),
                     fontSize: 14,
@@ -419,11 +419,9 @@ class _MyAppState extends State<MyApp> {
               SizedBox(
                 height: height * 0.04,
                 child: ListView(
-                  // separatorBuilder: (context, index) => Gap(height * 0.01),
                   shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
                   children: [
-                    // Gap(height * 0.01),
                     FilterItem('Sort', 'assets/icons/arrow-down.svg', () {
                       setState(() {
                         issort = !issort;
@@ -433,7 +431,7 @@ class _MyAppState extends State<MyApp> {
                         isMaths = false;
                         is2km = false;
                       });
-                    }, issort),
+                    }, issort, false),
                     Gap(height * 0.01),
                     FilterItem('<2km', '', () {
                       setState(() {
@@ -445,7 +443,7 @@ class _MyAppState extends State<MyApp> {
                         issort = false;
                       });
                       filter();
-                    }, is2km),
+                    }, is2km, false),
                     Gap(height * 0.01),
                     FilterItem('JEE', '', () {
                       setState(() {
@@ -457,7 +455,7 @@ class _MyAppState extends State<MyApp> {
                         issort = false;
                       });
                       filter();
-                    }, isJEE),
+                    }, isJEE, false),
                     Gap(height * 0.01),
                     FilterItem('Chemistry', '', () {
                       setState(() {
@@ -469,7 +467,7 @@ class _MyAppState extends State<MyApp> {
                         issort = false;
                       });
                       filter();
-                    }, isChemistry),
+                    }, isChemistry, true),
                     Gap(height * 0.01),
                     FilterItem('Maths', '', () {
                       setState(() {
@@ -481,7 +479,7 @@ class _MyAppState extends State<MyApp> {
                         issort = false;
                       });
                       filter();
-                    }, isMaths),
+                    }, isMaths, false),
                     Gap(height * 0.010),
                     FilterItem('Physics', '', () {
                       setState(() {
@@ -493,7 +491,7 @@ class _MyAppState extends State<MyApp> {
                         issort = false;
                       });
                       filter();
-                    }, isPhysics),
+                    }, isPhysics, false),
                   ],
 
                   // itemCount: filtersList.length,
@@ -522,7 +520,7 @@ class _MyAppState extends State<MyApp> {
                           // height: 138,
                           padding: EdgeInsets.symmetric(
                             horizontal: width * 0.05,
-                            vertical: height * 0.02,
+                            vertical: height * 0.01,
                           ),
                           decoration: ShapeDecoration(
                             color: Colors.white,
@@ -549,11 +547,18 @@ class _MyAppState extends State<MyApp> {
                                       pri = false;
                                       rating = false;
                                       dis = false;
+
+                                      if (rel || pri || rating || dis) {
+                                        notAnySortSelected = false;
+                                      } else {
+                                        oneSortSelected = true;
+                                      }
                                     });
                                     sort();
                                   },
                                   rel: rel,
                                   text: 'Relevance'),
+                              Gap(width * 0.002),
                               SortCardItem(
                                   press: () {
                                     setState(() {
@@ -561,11 +566,19 @@ class _MyAppState extends State<MyApp> {
                                       pri = !pri;
                                       rating = false;
                                       dis = false;
+
+                                      if (rel || pri || rating || dis) {
+                                        notAnySortSelected = true;
+                                      } else {
+                                        oneSortSelected = true;
+                                      }
                                     });
+
                                     sort();
                                   },
                                   price: pri,
                                   text: 'Price'),
+                              Gap(width * 0.002),
                               SortCardItem(
                                   press: () {
                                     setState(() {
@@ -573,11 +586,18 @@ class _MyAppState extends State<MyApp> {
                                       pri = false;
                                       rating = false;
                                       dis = !dis;
+
+                                      if (rel || pri || rating || dis) {
+                                        notAnySortSelected = true;
+                                      } else {
+                                        oneSortSelected = true;
+                                      }
                                     });
                                     sort();
                                   },
                                   dis: dis,
                                   text: 'Distance'),
+                              Gap(width * 0.002),
                               SortCardItem(
                                   press: () {
                                     setState(() {
@@ -585,6 +605,12 @@ class _MyAppState extends State<MyApp> {
                                       pri = false;
                                       rel = false;
                                       dis = false;
+
+                                      if (rel || pri || rating || dis) {
+                                        notAnySortSelected = true;
+                                      } else {
+                                        oneSortSelected = true;
+                                      }
                                     });
                                     sort();
                                   },

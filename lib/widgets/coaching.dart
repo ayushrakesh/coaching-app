@@ -48,15 +48,12 @@ class Coaching extends StatelessWidget {
                   image: DecorationImage(
                     image: coaching['image'],
                     fit: BoxFit.cover,
-                    opacity: 0.3,
+                    opacity: 0.4,
                   ),
                   gradient: LinearGradient(
                     begin: const Alignment(-0.00, -1.00),
-                    end: const Alignment(0, 1),
-                    colors: [
-                      Colors.white.withOpacity(0),
-                      Color.fromARGB(228, 125, 35, 224),
-                    ],
+                    end: const Alignment(0, 0.2),
+                    colors: [Colors.white.withOpacity(0), Color(0xE57D23E0)],
                   ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),

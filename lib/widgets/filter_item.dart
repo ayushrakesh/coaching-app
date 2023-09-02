@@ -7,9 +7,11 @@ class FilterItem extends StatefulWidget {
   final String text;
   final String iconpath;
   bool isSelected;
+  final bool ischem;
   final VoidCallback press;
 
-  FilterItem(this.text, this.iconpath, this.press, this.isSelected);
+  FilterItem(
+      this.text, this.iconpath, this.press, this.isSelected, this.ischem);
 
   @override
   State<FilterItem> createState() => _FilterItemState();
@@ -19,25 +21,16 @@ class _FilterItemState extends State<FilterItem> {
   final height = Get.height;
   final width = Get.width;
 
-  // List lessthan2coachings = [];
-  // List jeecoachings = [];
-  // List chemistrycoachings = [];
-  // List mathscoachings = [];
-  // List physicscoachings = [];
-
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: widget.press,
       child: Container(
-        // margin: EdgeInsets.only(
-        //   right: height * 0.01,
-        // ),
         padding: EdgeInsets.symmetric(
           horizontal: width * 0.02,
           vertical: height * 0.005,
         ),
-        width: width * 0.2,
+        width: widget.ischem ? width * 0.26 : width * 0.2,
         // height: 29,
 
         decoration: ShapeDecoration(
