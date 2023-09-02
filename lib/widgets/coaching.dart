@@ -17,10 +17,10 @@ class Coaching extends StatelessWidget {
     return Container(
       // width: 338,
       padding: EdgeInsets.symmetric(
-        vertical: height * 0.018,
+        vertical: height * 0.016,
         horizontal: height * 0.018,
       ),
-      height: height * 0.26,
+      height: height * 0.24,
 
       margin: EdgeInsets.only(bottom: height * 0.02),
       decoration: ShapeDecoration(
@@ -87,6 +87,7 @@ class Coaching extends StatelessWidget {
           Gap(height * 0.02),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(
                 width: 135,
